@@ -26,6 +26,7 @@ public interface ApiProvider {
     @GET("questions/no-answers")
     Call<Items<Answer>> loadNoAnsweredQuestions(@Query("tagged") String tagName, @Query("site")String stackoverflow);
 
-
+    @GET("questions/{id}/answers?order=desc&sort=activity&site=stackoverflow")
+    Call<Items<Answer>> loadCommentsFromQuestion(@Path("id") int id);
 
 }

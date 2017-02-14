@@ -50,6 +50,11 @@ public class NetworkManager {
         return call;
     }
 
+    public Call<Items<Answer>> loadCommentFromQuestion(int id){
+        Call<Items<Answer>> call = apiProvider.loadCommentsFromQuestion(id);
+        return call;
+    }
+
 
 
 

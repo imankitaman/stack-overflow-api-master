@@ -1,6 +1,4 @@
 package ankit.com.taskmaster.models;
-
-
 import java.io.Serializable;
 
 /**

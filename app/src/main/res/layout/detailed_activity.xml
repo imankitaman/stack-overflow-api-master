@@ -65,7 +65,23 @@
                 android:text="Title of Question"
                 />
 
+            <TextView
+                android:id="@+id/txtError"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                style="@style/TextAppearance.AppCompat.Caption"
+                android:text="No Comments Found"
+                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:layout_height="wrap_content"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/relativeLayComments"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"/>
+
         </LinearLayout>
+
+
 
     </ScrollView>
 </android.support.design.widget.CoordinatorLayout>

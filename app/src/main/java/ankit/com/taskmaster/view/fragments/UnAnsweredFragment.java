@@ -77,6 +77,8 @@ public class UnAnsweredFragment extends Fragment implements Callback<Items<Answe
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+        if(call != null)
+            call.cancel();
     }
 
     @Override
