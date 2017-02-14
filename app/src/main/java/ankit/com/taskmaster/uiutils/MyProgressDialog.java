@@ -43,7 +43,6 @@ public class MyProgressDialog extends ProgressDialog {
         try {
             this.setCancelable = setCancelable;
             show();
-
             setCanceledOnTouchOutside(setCancelable);
             setCancelable(setCancelable);
         }catch (Exception e){

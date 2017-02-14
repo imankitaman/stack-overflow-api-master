@@ -1,8 +1,17 @@
 package ankit.com.taskmaster.uiutils;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
+
+import ankit.com.taskmaster.R;
+import ankit.com.taskmaster.StackOverFlowApplication;
 
 /**
  * Created by ankit on 14/02/17.
@@ -39,6 +48,24 @@ public class Utility {
             e.printStackTrace();
         }
         return fragment;
+    }
+
+    public static boolean isNetworkConnected(){
+        ConnectivityManager cm = (ConnectivityManager) StackOverFlowApplication.getInstance()
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+    }
+
+    public static void showSnackBar(View view, Context context, String msg){
+        Snackbar snackbar = Snackbar
+                .make(view, msg, Snackbar.LENGTH_LONG)
+                .setAction("RETRY",null);
+        View sbView = snackbar.getView();
+        TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+        sbView.setBackgroundColor(ContextCompat.getColor(context, R.color.txt_white));
+        textView.setTextColor(ContextCompat.getColor(context, R.color.txt_red));
+        snackbar.show();
     }
 
 }

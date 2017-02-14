@@ -41,12 +41,12 @@ public class NetworkManager {
 
 
     public Call<Items<Question>> loadUnAnsweredQuestions(String tagName ){
-        Call<Items<Question>> unAnsweredQuestionscall = apiProvider.loadUnAnsweredQuestions(tagName,"stackoverflow");
+        Call<Items<Question>> unAnsweredQuestionscall = apiProvider.loadUnAnsweredQuestions(tagName);
         return unAnsweredQuestionscall;
     }
 
     public Call<Items<Question>> loadAnsweredQuestions(String tagName ){
-        Call<Items<Question>> call = apiProvider.loadNoAnsweredQuestions(tagName,"stackoverflow");
+        Call<Items<Question>> call = apiProvider.loadNoAnsweredQuestions(tagName);
         return call;
     }
 

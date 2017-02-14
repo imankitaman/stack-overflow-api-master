@@ -2,6 +2,7 @@ package ankit.com.taskmaster.view.activity;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,6 +10,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -22,7 +25,9 @@ import ankit.com.taskmaster.network.NetworkManager;
 import ankit.com.taskmaster.uiutils.Constants;
 import ankit.com.taskmaster.uiutils.MyProgressDialog;
 import ankit.com.taskmaster.uiutils.SpaceItemDecoration;
+import ankit.com.taskmaster.uiutils.Utility;
 import ankit.com.taskmaster.view.adapters.AnswerAdapter;
+import ankit.com.taskmaster.view.adapters.QuestionsAdapter;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import retrofit2.Call;
@@ -47,6 +52,8 @@ public class DetailedActivity extends AppCompatActivity implements Callback<Item
     TextView txtError;
     @Bind(R.id.tvBody)
     TextView tvBody;
+    @Bind(R.id.cordLayDetails)
+    CoordinatorLayout cordLayDetails;
     private Call<Items<Question>> call;
 
     private Question question;
@@ -70,10 +77,14 @@ public class DetailedActivity extends AppCompatActivity implements Callback<Item
             updateView(question);
         }
 
-        NetworkManager networkmanager = new NetworkManager();
-        call = networkmanager.loadCommentFromQuestion(Integer.parseInt(question.getQuestion_id()));
-        call.enqueue(this);
-        progressDialog.showProgressDialog(TAG, false);
+        if (Utility.isNetworkConnected()) {
+            NetworkManager networkmanager = new NetworkManager();
+            call = networkmanager.loadCommentFromQuestion(Integer.parseInt(question.getQuestion_id()));
+            call.enqueue(this);
+            progressDialog.showProgressDialog(TAG, false);
+        } else {
+            Utility.showSnackBar(cordLayDetails, this, "No Internet Connection");
+        }
     }
 
 
@@ -92,11 +103,12 @@ public class DetailedActivity extends AppCompatActivity implements Callback<Item
     }
 
     private void updateView(Question question) {
-        Glide.with(DetailedActivity.this).load(question.getOwner().getProfile_image()).into(ivPhoto);
-        tvQuestion.setText(question.getTitle());
+        if (!TextUtils.isEmpty(question.getOwner().getProfile_image()))
+            Glide.with(DetailedActivity.this).load(question.getOwner().getProfile_image()).into(ivPhoto);
+        tvQuestion.setText(Html.fromHtml(question.getTitle()));
         tvOwnerName.setText(getResources().getString(R.string.author_name, question.getOwner().getDisplay_name()));
         if (!TextUtils.isEmpty(question.getBody()))
-        tvBody.setText(Html.fromHtml(question.getBody()));
+            tvBody.setText(Html.fromHtml(question.getBody()));
     }
 
     @Override
@@ -118,14 +130,27 @@ public class DetailedActivity extends AppCompatActivity implements Callback<Item
     }
 
     @Override
-    public void onFailure(Call<Items<Question>> call, Throwable t) {
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
+    @Override
+    public void onFailure(Call<Items<Question>> call, Throwable t) {
+        progressDialog.hideProgressDialog(TAG);
     }
 
     public void checkForResult(int size) {
         relativeLayComments.setVisibility(size == 0 ? View.GONE : View.VISIBLE);
         txtError.setVisibility(size == 0 ? View.VISIBLE : View.GONE);
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override

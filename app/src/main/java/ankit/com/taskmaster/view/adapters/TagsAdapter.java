@@ -1,15 +1,15 @@
 package ankit.com.taskmaster.view.adapters;
 
 import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import ankit.com.taskmaster.R;
 import ankit.com.taskmaster.models.Tag;
 import ankit.com.taskmaster.uiutils.ModuleMaster;
@@ -33,11 +33,12 @@ public class TagsAdapter extends RecyclerView.Adapter<TagViewHolder> {
     @Override
     public void onBindViewHolder(TagViewHolder holder, int position) {
         final Tag tag = tagsData.get(position);
+        final Pair[] viewStringPair = new Pair[]{Pair.create(holder.txtVwTagName, holder.itemView.getResources().getString(R.string.transition_toolbar_tag))};
         holder.txtVwTagName.setText(tag.getTagName());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ModuleMaster.navigateToAnswers(mContext, tag.getTagName());
+                ModuleMaster.navigateToAnswers(mContext, tag.getTagName(), viewStringPair);
             }
         });
     }

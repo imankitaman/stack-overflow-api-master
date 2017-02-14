@@ -17,7 +17,7 @@ import ankit.com.taskmaster.uiutils.Constants;
 import ankit.com.taskmaster.uiutils.MyProgressDialog;
 import ankit.com.taskmaster.uiutils.SpaceItemDecoration;
 import ankit.com.taskmaster.view.activity.ActivityEventListener;
-import ankit.com.taskmaster.view.adapters.AnswerAdapter;
+import ankit.com.taskmaster.view.adapters.QuestionsAdapter;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import retrofit2.Call;
@@ -33,7 +33,7 @@ public class UnAnsweredFragment extends Fragment implements Callback<Items<Quest
     @Bind(R.id.recycleViewUNAnswered)
     RecyclerView recycleViewUNAnswered;
     Call<Items<Question>> call;
-    private AnswerAdapter adapter;
+    private QuestionsAdapter adapter;
     String tagName;
     private MyProgressDialog progressDialog;
 
@@ -64,8 +64,8 @@ public class UnAnsweredFragment extends Fragment implements Callback<Items<Quest
         recycleViewUNAnswered.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recycleViewUNAnswered.setLayoutManager(layoutManager);
-        recycleViewUNAnswered.addItemDecoration(new SpaceItemDecoration(2));
-        adapter = new AnswerAdapter();
+        recycleViewUNAnswered.addItemDecoration(new SpaceItemDecoration(1));
+        adapter = new QuestionsAdapter();
         recycleViewUNAnswered.setAdapter(adapter);
     }
 

@@ -5,9 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.View;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 
 import ankit.com.taskmaster.R;
 import ankit.com.taskmaster.models.Items;
@@ -15,6 +13,7 @@ import ankit.com.taskmaster.models.Tag;
 import ankit.com.taskmaster.network.NetworkManager;
 import ankit.com.taskmaster.uiutils.MyProgressDialog;
 import ankit.com.taskmaster.uiutils.SpaceItemDecoration;
+import ankit.com.taskmaster.uiutils.Utility;
 import ankit.com.taskmaster.view.adapters.TagsAdapter;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -28,6 +27,8 @@ public class MainActivity extends AppCompatActivity implements Callback<Items<Ta
     @Bind(R.id.recycleTagsView)
     RecyclerView recycleTagsView;
     Call<Items<Tag>> call;
+    @Bind(R.id.linLayMain)
+    LinearLayout linLayMain;
     private TagsAdapter adapter;
     private MyProgressDialog progressDialog;
 
@@ -39,10 +40,15 @@ public class MainActivity extends AppCompatActivity implements Callback<Items<Ta
         initRecycleView();
         initToolBar();
         progressDialog = new MyProgressDialog(this);
-        NetworkManager networkmanager = new NetworkManager();
-        call=networkmanager.loadPopularTags();
-        call.enqueue(this);
-        progressDialog.showProgressDialog(TAG,false);
+
+        if (Utility.isNetworkConnected()) {
+            NetworkManager networkmanager = new NetworkManager();
+            call = networkmanager.loadPopularTags();
+            call.enqueue(this);
+            progressDialog.showProgressDialog(TAG, false);
+        } else {
+            Utility.showSnackBar(linLayMain, this, "No Internet Connection");
+        }
     }
 
 
@@ -53,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements Callback<Items<Ta
 
 
     private void initRecycleView() {
-        final StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(8, StaggeredGridLayoutManager.HORIZONTAL);
+        final StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(7, StaggeredGridLayoutManager.HORIZONTAL);
         recycleTagsView.setLayoutManager(layoutManager);
         recycleTagsView.addItemDecoration(new SpaceItemDecoration(8));
         adapter = new TagsAdapter();

@@ -21,21 +21,21 @@ import ankit.com.taskmaster.uiutils.ModuleMaster;
 import ankit.com.taskmaster.view.viewHolders.AnswerViewHolder;
 
 /**
- * Created by ankit on 15/02/17.
+ * Created by ankit on 14/02/17.
  */
-public class AnswerAdapter extends RecyclerView.Adapter<AnswerViewHolder> {
+public class QuestionsAdapter extends RecyclerView.Adapter<AnswerViewHolder> {
 
     private static final String TAG = QuestionsAdapter.class.getSimpleName();
     private List<Question> questionItems;
     private Context context;
 
-    public AnswerAdapter() {
+    public QuestionsAdapter() {
         questionItems = new ArrayList<>();
     }
 
     @Override
     public AnswerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_answer, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_question, parent, false);
         context = parent.getContext();
         return new AnswerViewHolder(v);
     }
@@ -47,7 +47,7 @@ public class AnswerAdapter extends RecyclerView.Adapter<AnswerViewHolder> {
                 Pair.create((View) holder.tvQuestion, holder.itemView.getResources().getString(R.string.transition_title)),
                 Pair.create((View) holder.tvAuthor, holder.itemView.getResources().getString(R.string.transition_authorName))};
         if (!TextUtils.isEmpty(question.getOwner().getProfile_image()))
-            Glide.with(context).load(question.getOwner().getProfile_image()).into(holder.userPhoto);
+        Glide.with(context).load(question.getOwner().getProfile_image()).into(holder.userPhoto);
         holder.tvAuthor.setText(context.getResources().getString(R.string.author, question.getOwner().getDisplay_name()));
         if (!TextUtils.isEmpty(question.getTitle())) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -59,8 +59,13 @@ public class AnswerAdapter extends RecyclerView.Adapter<AnswerViewHolder> {
         holder.tvVotes.setText(context.getResources().getString(R.string.vote, question.getScore()));
         holder.tvAnswerCount.setText(context.getResources().getString(R.string.ans_count, question.getAnswer_count()));
         holder.tvViews.setText(context.getResources().getString(R.string.views, question.getView_count()));
-        if (!TextUtils.isEmpty(question.getBody()))
-            holder.tvAnswer.setText(Html.fromHtml(question.getBody()));
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ModuleMaster.navigateToAnswersDetails(context, question,viewStringPair);
+
+            }
+        });
     }
 
     @Override
@@ -71,4 +76,6 @@ public class AnswerAdapter extends RecyclerView.Adapter<AnswerViewHolder> {
     public void setQuestionItems(List<Question> questionItems) {
         this.questionItems = questionItems;
     }
+
+
 }

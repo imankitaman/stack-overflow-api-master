@@ -18,14 +18,15 @@ public interface ApiProvider {
     @GET("tags?order=desc&sort=popular&site=stackoverflow")
     Call<Items<Tag>> loadTags();
 
-    //UnAnsweredFragment Questions
-    @GET("questions/unanswered?&filter=withbody")
-    Call<Items<Question>> loadUnAnsweredQuestions(@Query("tagged") String tagName , @Query("site")String stackoverflow);
+    //UnAnswered Questions
+    @GET("questions/unanswered?&filter=withbody&site=stackoverflow")
+    Call<Items<Question>> loadUnAnsweredQuestions(@Query("tagged") String tagName);
 
     //AnsweredQuestions
-    @GET("questions/no-answers?&filter=withbody")
-    Call<Items<Question>> loadNoAnsweredQuestions(@Query("tagged") String tagName, @Query("site")String stackoverflow);
+    @GET("questions/no-answers?&filter=withbody&site=stackoverflow")
+    Call<Items<Question>> loadNoAnsweredQuestions(@Query("tagged") String tagName);
 
+    //comments
     @GET("questions/{id}/answers?order=desc&sort=activity&site=stackoverflow&filter=withbody")
     Call<Items<Question>> loadCommentsFromQuestion(@Path("id") int id);
 

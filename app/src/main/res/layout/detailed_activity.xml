@@ -3,15 +3,16 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/cordLayDetails"
     android:background="@android:color/white"
     android:fitsSystemWindows="true">
+
     <include layout="@layout/toolbar"/>
 
-    <ScrollView
+    <android.support.v4.widget.NestedScrollView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="@dimen/activity_horizontal_margin"
         android:layout_marginTop="?actionBarSize"
         android:fillViewport="true"
         android:scrollbars="none">
@@ -20,14 +21,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:orientation="vertical"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/activity_horizontal_margin">
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -42,54 +43,87 @@
                     style="@style/Base.TextAppearance.AppCompat.Body2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                    android:layout_marginTop="@dimen/activity_horizontal_margin"
+                    android:paddingLeft="@dimen/activity_vertical_margin"
+                    android:paddingRight="@dimen/activity_horizontal_margin"
+                    android:paddingStart="@dimen/activity_horizontal_margin"
+                    android:paddingEnd="@dimen/activity_horizontal_margin"
                     android:transitionName="@string/transition_authorName"/>
             </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:background="@color/black_20"
+                android:layout_marginTop="5dp"
+                android:layout_height="1dp"/>
 
             <TextView
                 style="@style/Base.TextAppearance.AppCompat.Body2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/activity_vertical_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingStart="@dimen/activity_horizontal_margin"
+                android:paddingEnd="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="@dimen/activity_horizontal_margin"
-                android:text="Question"/>
+                android:text="@string/question"/>
 
             <TextView
                 android:id="@+id/tvQuestion"
                 style="@style/TextAppearance.AppCompat.Title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:transitionName="@string/transition_title"
+                android:paddingLeft="@dimen/activity_vertical_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingStart="@dimen/activity_horizontal_margin"
+                android:paddingEnd="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="8dp"
+                android:transitionName="@string/transition_title"
                 />
 
             <TextView
                 android:id="@+id/tvBody"
                 style="@style/TextAppearance.AppCompat.Subhead"
                 android:layout_width="match_parent"
-                android:autoLink="all"
                 android:layout_height="wrap_content"
-                android:textColor="@color/secondary_text"
+                android:paddingLeft="@dimen/activity_vertical_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingStart="@dimen/activity_horizontal_margin"
+                android:paddingEnd="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="8dp"
+                android:autoLink="all"
+                android:textColor="@color/secondary_text"
                 />
+            <TextView
+                style="@style/Base.TextAppearance.AppCompat.Body2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/activity_vertical_margin"
+                android:paddingStart="@dimen/activity_horizontal_margin"
+                android:paddingEnd="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:text="@string/answers"/>
 
             <TextView
                 android:id="@+id/txtError"
-                android:visibility="gone"
-                android:layout_width="match_parent"
                 style="@style/TextAppearance.AppCompat.Caption"
-                android:text="No Comments Found"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginBottom="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="@dimen/activity_horizontal_margin"
-                android:layout_height="wrap_content"/>
+                android:text="@string/no_answers_found"
+                android:visibility="gone"/>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/relativeLayComments"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"/>
+                android:layout_width="match_parent"
+                android:paddingBottom="@dimen/activity_horizontal_margin"
+                android:layout_height="wrap_content"/>
 
         </LinearLayout>
 
 
-
-    </ScrollView>
+    </android.support.v4.widget.NestedScrollView>
 </android.support.design.widget.CoordinatorLayout>

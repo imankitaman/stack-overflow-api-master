@@ -19,18 +19,21 @@
         <item>@android:color/transparent</item>
     </integer-array>
 
-    <string name="tabTitle">Questions</string>
-
+    <!--adapter-->
     <string name="author">Author :- <b>%s</b></string>
-
-
     <string name="author_name">Author:- \n <b>%s</b></string>
-
     <string name="vote">%d \n Score</string>
     <string name="ans_count">%d \n Answer</string>
     <string name="views">%d \n View</string>
 
+    <!--transition String -->
     <string name="transition_image">profile_img</string>
     <string name="transition_title">profile_title</string>
     <string name="transition_authorName">profile_author</string>
+    <string name="transition_toolbar_tag">tag_name</string>
+
+    <!--details page String -->
+    <string name="question">Question</string>
+    <string name="answers">Answers: -</string>
+    <string name="no_answers_found">No Answers Found</string>
 </resources>

@@ -2,8 +2,10 @@ package ankit.com.taskmaster.view.activity;
 
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -73,9 +75,13 @@ public class BaseTabsActivity extends AppCompatActivity {
         setContentView(R.layout.tab_activity);
         initToolbar();
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setAllowEnterTransitionOverlap(false);
+        }
+
         // SET THE ACTIVITY TITLE
         try {
-            String title = getResources().getString(getIntent().getIntExtra(ARGS_ACTIVITY_TITLE, 0));
+            String title = getIntent().getStringExtra(ARGS_ACTIVITY_TITLE);
             title = (!TextUtils.isEmpty(title)) ? title : getString(R.string.app_name);
             setTitle(title);
         } catch (Exception e) {
@@ -97,18 +103,18 @@ public class BaseTabsActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                return true;
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
         }
         return super.onOptionsItemSelected(item);
     }
+
 
     @Override
     protected void onStart() {
         super.onStart();
     }
+
 
 
     @Override

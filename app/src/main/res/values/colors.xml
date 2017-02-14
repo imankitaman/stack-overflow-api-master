@@ -6,4 +6,12 @@
 
     <color name="transparent">#00000000</color>
     <color name="secondary_text">#BDBDBD</color>
+
+    <color name="black_20">#D5D9DE</color>
+
+    <!--Overlay color-->
+    <color name="ripple_color">#E6E6E6</color>
+
+    <color name="txt_red">#ff3131</color>
+    <color name="txt_white">#ffffff</color>
 </resources>
