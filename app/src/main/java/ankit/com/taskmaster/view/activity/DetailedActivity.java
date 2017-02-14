@@ -109,6 +109,7 @@ public class DetailedActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(DetailedActivity.this);
         relativeLayComments.setLayoutManager(layoutManager);
         relativeLayComments.addItemDecoration(new SpaceItemDecoration(8));
+        relativeLayComments.setNestedScrollingEnabled(false);
         adapter = new AnswerAdapter();
         relativeLayComments.setAdapter(adapter);
     }
@@ -136,7 +137,7 @@ public class DetailedActivity extends AppCompatActivity {
         else
             finish();
     }
-    
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
