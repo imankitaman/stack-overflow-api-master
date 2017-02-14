@@ -22,17 +22,20 @@ import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import rx.Observer;
+import rx.observers.Subscribers;
+import rx.subscriptions.CompositeSubscription;
 
 /**
  * Created by ankit on 14/02/17.
  */
-public class AnsweredFragment extends Fragment implements Callback<Items<Question>> ,ActivityEventListener{
+public class AnsweredFragment extends Fragment implements ActivityEventListener{
 
     private static final String TAG = AnsweredFragment.class.getSimpleName();
     @Bind(R.id.recycleViewUNAnswered)
     RecyclerView recycleViewUNAnswered;
 
-    Call<Items<Question>> call;
+    private CompositeSubscription compositeSubscription;
     private QuestionsAdapter adapter;
     String tagName;
 
@@ -42,6 +45,7 @@ public class AnsweredFragment extends Fragment implements Callback<Items<Questio
         View view = inflater.inflate(R.layout.fragment_unanswered,
                 container, false);
         ButterKnife.bind(this, view);
+        compositeSubscription = new CompositeSubscription();
         tagName = getArguments().getString(Constants.CONSTANT_TAG_NAME);
         return view;
     }
@@ -51,8 +55,23 @@ public class AnsweredFragment extends Fragment implements Callback<Items<Questio
         super.onViewCreated(view, savedInstanceState);
         initRecycleView();
         NetworkManager networkmanager = new NetworkManager();
-        call=networkmanager.loadAnsweredQuestions(tagName);
-        call.enqueue(this);
+        compositeSubscription.add(networkmanager.loadAnsweredQuestions(tagName).subscribe(new Observer<Items<Question>>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(Items<Question> questionItems) {
+                adapter.setQuestionItems(questionItems.getItems());
+                adapter.notifyDataSetChanged();
+            }
+        }));
     }
 
     private void initRecycleView() {
@@ -74,19 +93,9 @@ public class AnsweredFragment extends Fragment implements Callback<Items<Questio
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
-        if(call != null)
-            call.cancel();
-    }
-
-    @Override
-    public void onResponse(Call<Items<Question>> call, Response<Items<Question>> response) {
-        adapter.setQuestionItems(response.body().getItems());
-        adapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void onFailure(Call<Items<Question>> call, Throwable t) {
-
+        if(compositeSubscription!=null && !compositeSubscription.isUnsubscribed()){
+            compositeSubscription.unsubscribe();
+        }
     }
 
     @Override

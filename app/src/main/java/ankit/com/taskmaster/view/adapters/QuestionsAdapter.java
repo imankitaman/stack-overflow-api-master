@@ -59,13 +59,7 @@ public class QuestionsAdapter extends RecyclerView.Adapter<AnswerViewHolder> {
         holder.tvVotes.setText(context.getResources().getString(R.string.vote, question.getScore()));
         holder.tvAnswerCount.setText(context.getResources().getString(R.string.ans_count, question.getAnswer_count()));
         holder.tvViews.setText(context.getResources().getString(R.string.views, question.getView_count()));
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ModuleMaster.navigateToAnswersDetails(context, question,viewStringPair);
-
-            }
-        });
+        holder.itemView.setOnClickListener(view -> ModuleMaster.navigateToAnswersDetails(context, question,viewStringPair));
     }
 
     @Override

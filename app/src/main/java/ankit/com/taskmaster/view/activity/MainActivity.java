@@ -17,19 +17,19 @@ import ankit.com.taskmaster.uiutils.Utility;
 import ankit.com.taskmaster.view.adapters.TagsAdapter;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import rx.Observer;
+import rx.subscriptions.CompositeSubscription;
 
-public class MainActivity extends AppCompatActivity implements Callback<Items<Tag>> {
+public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getCanonicalName();
     @Bind(R.id.recycleTagsView)
     RecyclerView recycleTagsView;
-    Call<Items<Tag>> call;
+    //    Call<Items<Tag>> call;
     @Bind(R.id.linLayMain)
     LinearLayout linLayMain;
     private TagsAdapter adapter;
+    private CompositeSubscription compositeSubscription;
     private MyProgressDialog progressDialog;
 
     @Override
@@ -39,12 +39,31 @@ public class MainActivity extends AppCompatActivity implements Callback<Items<Ta
         ButterKnife.bind(this);
         initRecycleView();
         initToolBar();
+        compositeSubscription = new CompositeSubscription();
         progressDialog = new MyProgressDialog(this);
 
         if (Utility.isNetworkConnected()) {
             NetworkManager networkmanager = new NetworkManager();
-            call = networkmanager.loadPopularTags();
-            call.enqueue(this);
+            compositeSubscription.add(networkmanager.loadPopularTags().subscribe(new Observer<Items<Tag>>() {
+                @Override
+                public void onCompleted() {
+
+                }
+
+                @Override
+                public void onError(Throwable e) {
+
+                }
+
+                @Override
+                public void onNext(Items<Tag> tagItems) {
+                    adapter.clearTagItems();
+                    adapter.setTagItems(tagItems.getItems());
+                    adapter.notifyDataSetChanged();
+                    progressDialog.cancel();
+                }
+            }));
+
             progressDialog.showProgressDialog(TAG, false);
         } else {
             Utility.showSnackBar(linLayMain, this, "No Internet Connection");
@@ -66,26 +85,13 @@ public class MainActivity extends AppCompatActivity implements Callback<Items<Ta
         recycleTagsView.setAdapter(adapter);
     }
 
-
-    @Override
-    public void onResponse(Call<Items<Tag>> call, Response<Items<Tag>> response) {
-        adapter.clearTagItems();
-        adapter.setTagItems(response.body().getItems());
-        adapter.notifyDataSetChanged();
-        progressDialog.cancel();
-    }
-
-    @Override
-    public void onFailure(Call<Items<Tag>> call, Throwable t) {
-    }
-
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
         ButterKnife.unbind(this);
-        if (call != null)
-            call.cancel();
+        if(compositeSubscription!=null && !compositeSubscription.isUnsubscribed()){
+            compositeSubscription.unsubscribe();
+        }
     }
 
 }

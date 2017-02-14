@@ -27,17 +27,15 @@ import ankit.com.taskmaster.uiutils.MyProgressDialog;
 import ankit.com.taskmaster.uiutils.SpaceItemDecoration;
 import ankit.com.taskmaster.uiutils.Utility;
 import ankit.com.taskmaster.view.adapters.AnswerAdapter;
-import ankit.com.taskmaster.view.adapters.QuestionsAdapter;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import rx.Observer;
+import rx.subscriptions.CompositeSubscription;
 
 /**
  * Created by ankit on 14/02/17.
  */
-public class DetailedActivity extends AppCompatActivity implements Callback<Items<Question>> {
+public class DetailedActivity extends AppCompatActivity {
 
     private static final String TAG = DetailedActivity.class.getSimpleName();
     @Bind(R.id.tvQuestion)
@@ -54,8 +52,7 @@ public class DetailedActivity extends AppCompatActivity implements Callback<Item
     TextView tvBody;
     @Bind(R.id.cordLayDetails)
     CoordinatorLayout cordLayDetails;
-    private Call<Items<Question>> call;
-
+    private CompositeSubscription compositeSubscription;
     private Question question;
     private MyProgressDialog progressDialog;
     private AnswerAdapter adapter;
@@ -66,6 +63,7 @@ public class DetailedActivity extends AppCompatActivity implements Callback<Item
         super.onCreate(savedInstanceState);
         setContentView(R.layout.detailed_activity);
         ButterKnife.bind(this);
+        compositeSubscription = new CompositeSubscription();
         progressDialog = new MyProgressDialog(this);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setAllowEnterTransitionOverlap(false);
@@ -79,9 +77,28 @@ public class DetailedActivity extends AppCompatActivity implements Callback<Item
 
         if (Utility.isNetworkConnected()) {
             NetworkManager networkmanager = new NetworkManager();
-            call = networkmanager.loadCommentFromQuestion(Integer.parseInt(question.getQuestion_id()));
-            call.enqueue(this);
             progressDialog.showProgressDialog(TAG, false);
+            compositeSubscription.add(networkmanager.loadCommentFromQuestion(Integer.parseInt(question.getQuestion_id())).subscribe(new Observer<Items<Question>>() {
+                @Override
+                public void onCompleted() {
+
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    progressDialog.hideProgressDialog(TAG);
+                }
+
+                @Override
+                public void onNext(Items<Question> questionItems) {
+                    adapter.setQuestionItems(questionItems.getItems());
+                    checkForResult(questionItems.getItems().size());
+                    adapter.notifyDataSetChanged();
+                    progressDialog.hideProgressDialog(TAG);
+                }
+            }));
+
+
         } else {
             Utility.showSnackBar(cordLayDetails, this, "No Internet Connection");
         }
@@ -119,16 +136,7 @@ public class DetailedActivity extends AppCompatActivity implements Callback<Item
         else
             finish();
     }
-
-
-    @Override
-    public void onResponse(Call<Items<Question>> call, Response<Items<Question>> response) {
-        adapter.setQuestionItems(response.body().getItems());
-        checkForResult(response.body().getItems().size());
-        adapter.notifyDataSetChanged();
-        progressDialog.hideProgressDialog(TAG);
-    }
-
+    
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
@@ -137,10 +145,6 @@ public class DetailedActivity extends AppCompatActivity implements Callback<Item
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onFailure(Call<Items<Question>> call, Throwable t) {
-        progressDialog.hideProgressDialog(TAG);
-    }
 
     public void checkForResult(int size) {
         relativeLayComments.setVisibility(size == 0 ? View.GONE : View.VISIBLE);
@@ -157,7 +161,8 @@ public class DetailedActivity extends AppCompatActivity implements Callback<Item
     protected void onDestroy() {
         super.onDestroy();
         ButterKnife.unbind(this);
-        if (call != null)
-            call.cancel();
+        if(compositeSubscription!=null && !compositeSubscription.isUnsubscribed()){
+            compositeSubscription.unsubscribe();
+        }
     }
 }

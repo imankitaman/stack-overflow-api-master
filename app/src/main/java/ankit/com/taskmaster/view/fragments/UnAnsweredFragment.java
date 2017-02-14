@@ -23,16 +23,18 @@ import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import rx.Observer;
+import rx.subscriptions.CompositeSubscription;
 
 /**
  * Created by ankit on 14/02/17.
  */
-public class UnAnsweredFragment extends Fragment implements Callback<Items<Question>>, ActivityEventListener {
+public class UnAnsweredFragment extends Fragment implements ActivityEventListener {
 
     private static final String TAG = UnAnsweredFragment.class.getSimpleName();
     @Bind(R.id.recycleViewUNAnswered)
     RecyclerView recycleViewUNAnswered;
-    Call<Items<Question>> call;
+    private CompositeSubscription compositeSubscription;
     private QuestionsAdapter adapter;
     String tagName;
     private MyProgressDialog progressDialog;
@@ -44,6 +46,7 @@ public class UnAnsweredFragment extends Fragment implements Callback<Items<Quest
                 container, false);
         ButterKnife.bind(this, view);
         tagName = getArguments().getString(Constants.CONSTANT_TAG_NAME);
+        compositeSubscription = new CompositeSubscription();
         return view;
     }
 
@@ -53,9 +56,26 @@ public class UnAnsweredFragment extends Fragment implements Callback<Items<Quest
         initRecycleView();
         progressDialog = new MyProgressDialog(getActivity());
         NetworkManager networkmanager = new NetworkManager();
-        call=networkmanager.loadUnAnsweredQuestions(tagName);
-        call.enqueue(this);
         progressDialog.showProgressDialog(TAG,false);
+        compositeSubscription.add(networkmanager.loadUnAnsweredQuestions(tagName).subscribe(new Observer<Items<Question>>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                progressDialog.hideProgressDialog(TAG);
+            }
+
+            @Override
+            public void onNext(Items<Question> questionItems) {
+                adapter.setQuestionItems(questionItems.getItems());
+                adapter.notifyDataSetChanged();
+                progressDialog.cancel();
+                progressDialog.hideProgressDialog(TAG);
+            }
+        }));
 
 
     }
@@ -73,21 +93,13 @@ public class UnAnsweredFragment extends Fragment implements Callback<Items<Quest
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
-        if(call != null)
-            call.cancel();
+        if(compositeSubscription!=null && !compositeSubscription.isUnsubscribed()){
+            compositeSubscription.unsubscribe();
+        }
     }
 
-    @Override
-    public void onResponse(Call<Items<Question>> call, Response<Items<Question>> response) {
-        adapter.setQuestionItems(response.body().getItems());
-        adapter.notifyDataSetChanged();
-        progressDialog.cancel();
-    }
 
-    @Override
-    public void onFailure(Call<Items<Question>> call, Throwable t) {
 
-    }
 
     @Override
     public void onBackPress() {

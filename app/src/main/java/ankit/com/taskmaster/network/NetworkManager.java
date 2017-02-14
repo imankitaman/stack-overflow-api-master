@@ -8,13 +8,16 @@ import ankit.com.taskmaster.models.Question;
 import ankit.com.taskmaster.models.Items;
 import ankit.com.taskmaster.models.Tag;
 import retrofit2.Call;
+import retrofit2.Response;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+import rx.Observable;
 
 /**
  * Created by ankit on 14/02/17.
  */
-public class NetworkManager {
+public class NetworkManager extends ApiController {
 
     ApiProvider apiProvider;
 
@@ -24,35 +27,34 @@ public class NetworkManager {
                 .create();
 
         Retrofit retrofit = new Retrofit.Builder()
-//                TODO  add base url
                 .baseUrl(BuildConfig.BASE_URL)
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
-
         apiProvider = retrofit.create(ApiProvider.class);
 
     }
 
 
-    public Call<Items<Tag>> loadPopularTags(){
-        Call<Items<Tag>> callTags = apiProvider.loadTags();
-        return callTags;
+    public Observable<Items<Tag>> loadPopularTags(){
+        Observable<Response<Items<Tag>>> callTags = apiProvider.loadTags();
+        return handleApiObservable(callTags);
     }
 
 
-    public Call<Items<Question>> loadUnAnsweredQuestions(String tagName ){
-        Call<Items<Question>> unAnsweredQuestionscall = apiProvider.loadUnAnsweredQuestions(tagName);
-        return unAnsweredQuestionscall;
+    public Observable<Items<Question>> loadUnAnsweredQuestions(String tagName ){
+        Observable<Response<Items<Question>>> unAnsweredQuestionscall = apiProvider.loadUnAnsweredQuestions(tagName);
+        return handleApiObservable(unAnsweredQuestionscall);
     }
 
-    public Call<Items<Question>> loadAnsweredQuestions(String tagName ){
-        Call<Items<Question>> call = apiProvider.loadNoAnsweredQuestions(tagName);
-        return call;
+    public Observable<Items<Question>>  loadAnsweredQuestions(String tagName ){
+        Observable<Response<Items<Question>>>  call = apiProvider.loadNoAnsweredQuestions(tagName);
+        return handleApiObservable(call);
     }
 
-    public Call<Items<Question>> loadCommentFromQuestion(int id){
-        Call<Items<Question>> call = apiProvider.loadCommentsFromQuestion(id);
-        return call;
+    public Observable<Items<Question>> loadCommentFromQuestion(int id){
+        Observable<Response<Items<Question>>> call = apiProvider.loadCommentsFromQuestion(id);
+        return handleApiObservable(call);
     }
 
 
