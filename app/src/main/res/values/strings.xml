@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">Task Master</string>
+
+    <string name="FRAGMENT_UN_ANSWARED">ankit.com.taskmaster.view.fragments.UnAnsweredFragment</string>
+    <string name="FRAGMENT_ANSWERED">ankit.com.taskmaster.view.fragments.AnsweredFragment</string>
+
+    <string-array name="fragments_name">
+        <item>@string/FRAGMENT_UN_ANSWARED</item>
+        <item>@string/FRAGMENT_ANSWERED</item>
+    </string-array>
+
+    <string-array name="fragments_titles">
+        <item>UNANSWARED</item>
+        <item>NO ANSWERS</item>
+    </string-array>
+
+    <integer-array name="fragment_icons">
+        <item>@android:color/transparent</item>
+        <item>@android:color/transparent</item>
+    </integer-array>
+
+    <string name="tabTitle">Answers</string>
+
+    <string name="author">author name :- <b>%s</b></string>
+</resources>
