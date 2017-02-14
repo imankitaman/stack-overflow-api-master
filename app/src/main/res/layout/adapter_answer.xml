@@ -31,7 +31,7 @@
             <TextView
                 android:id="@+id/tvAuthor"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_margin="2dp"
                 android:layout_weight=".8"
                 android:ellipsize="end"
@@ -61,6 +61,7 @@
                 android:id="@+id/tvAnswer"
                 style="@style/Base.TextAppearance.AppCompat.Caption"
                 android:layout_width="wrap_content"
+                android:autoLink="all"
                 android:layout_height="wrap_content"
                 />
 
