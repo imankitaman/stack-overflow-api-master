@@ -1,23 +1,19 @@
 package ankit.com.taskmaster.view.fragments;
 
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import ankit.com.taskmaster.R;
-import ankit.com.taskmaster.models.Answer;
+import ankit.com.taskmaster.models.Question;
 import ankit.com.taskmaster.models.Items;
 import ankit.com.taskmaster.network.NetworkManager;
 import ankit.com.taskmaster.uiutils.Constants;
-import ankit.com.taskmaster.uiutils.DividerItemDecoration;
 import ankit.com.taskmaster.uiutils.MyProgressDialog;
 import ankit.com.taskmaster.uiutils.SpaceItemDecoration;
 import ankit.com.taskmaster.view.activity.ActivityEventListener;
@@ -31,12 +27,12 @@ import retrofit2.Response;
 /**
  * Created by ankit on 14/02/17.
  */
-public class UnAnsweredFragment extends Fragment implements Callback<Items<Answer>>, ActivityEventListener {
+public class UnAnsweredFragment extends Fragment implements Callback<Items<Question>>, ActivityEventListener {
 
     private static final String TAG = UnAnsweredFragment.class.getSimpleName();
     @Bind(R.id.recycleViewUNAnswered)
     RecyclerView recycleViewUNAnswered;
-    Call<Items<Answer>> call;
+    Call<Items<Question>> call;
     private AnswerAdapter adapter;
     String tagName;
     private MyProgressDialog progressDialog;
@@ -82,14 +78,14 @@ public class UnAnsweredFragment extends Fragment implements Callback<Items<Answe
     }
 
     @Override
-    public void onResponse(Call<Items<Answer>> call, Response<Items<Answer>> response) {
-        adapter.setAnswerItems(response.body().getItems());
+    public void onResponse(Call<Items<Question>> call, Response<Items<Question>> response) {
+        adapter.setQuestionItems(response.body().getItems());
         adapter.notifyDataSetChanged();
         progressDialog.cancel();
     }
 
     @Override
-    public void onFailure(Call<Items<Answer>> call, Throwable t) {
+    public void onFailure(Call<Items<Question>> call, Throwable t) {
 
     }
 

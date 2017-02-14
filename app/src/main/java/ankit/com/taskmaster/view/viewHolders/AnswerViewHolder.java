@@ -22,8 +22,12 @@ public class AnswerViewHolder extends RecyclerView.ViewHolder {
     public View separator;
     @Bind(R.id.tvAuthor)
     public TextView tvAuthor;
-    @Bind(R.id.tvAnswer)
-    public TextView tvAnswer;
+    @Bind(R.id.tvVotes)
+    public TextView tvVotes;
+    @Bind(R.id.tvAnswerCount)
+    public TextView tvAnswerCount;
+    @Bind(R.id.tvViews)
+    public TextView tvViews;
     @Bind(R.id.llAnswer)
     public LinearLayout llAnswer;
     @Bind(R.id.cvItemQuestion)

@@ -26,6 +26,10 @@
 
     <string name="author_name">Author:- \n <b>%s</b></string>
 
+    <string name="vote">%d \n Score</string>
+    <string name="ans_count">%d \n Answer</string>
+    <string name="views">%d \n View</string>
+
     <string name="transition_image">profile_img</string>
     <string name="transition_title">profile_title</string>
     <string name="transition_authorName">profile_author</string>

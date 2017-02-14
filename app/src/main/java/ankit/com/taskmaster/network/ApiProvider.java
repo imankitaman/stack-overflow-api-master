@@ -1,6 +1,6 @@
 package ankit.com.taskmaster.network;
 
-import ankit.com.taskmaster.models.Answer;
+import ankit.com.taskmaster.models.Question;
 import ankit.com.taskmaster.models.Items;
 import ankit.com.taskmaster.models.Tag;
 import retrofit2.Call;
@@ -20,13 +20,13 @@ public interface ApiProvider {
 
     //UnAnsweredFragment Questions
     @GET("questions/unanswered")
-    Call<Items<Answer>> loadUnAnsweredQuestions(@Query("tagged") String tagName , @Query("site")String stackoverflow);
+    Call<Items<Question>> loadUnAnsweredQuestions(@Query("tagged") String tagName , @Query("site")String stackoverflow);
 
     //AnsweredQuestions
     @GET("questions/no-answers")
-    Call<Items<Answer>> loadNoAnsweredQuestions(@Query("tagged") String tagName, @Query("site")String stackoverflow);
+    Call<Items<Question>> loadNoAnsweredQuestions(@Query("tagged") String tagName, @Query("site")String stackoverflow);
 
     @GET("questions/{id}/answers?order=desc&sort=activity&site=stackoverflow")
-    Call<Items<Answer>> loadCommentsFromQuestion(@Path("id") int id);
+    Call<Items<Question>> loadCommentsFromQuestion(@Path("id") int id);
 
 }

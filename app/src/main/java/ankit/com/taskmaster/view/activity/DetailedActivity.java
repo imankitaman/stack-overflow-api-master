@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 
 import ankit.com.taskmaster.R;
-import ankit.com.taskmaster.models.Answer;
+import ankit.com.taskmaster.models.Question;
 import ankit.com.taskmaster.models.Items;
 import ankit.com.taskmaster.network.NetworkManager;
 import ankit.com.taskmaster.uiutils.Constants;
@@ -30,7 +30,7 @@ import retrofit2.Response;
 /**
  * Created by ankit on 14/02/17.
  */
-public class DetailedActivity extends AppCompatActivity implements Callback<Items<Answer>> {
+public class DetailedActivity extends AppCompatActivity implements Callback<Items<Question>> {
 
     private static final String TAG = DetailedActivity.class.getSimpleName();
     @Bind(R.id.tvQuestion)
@@ -43,9 +43,9 @@ public class DetailedActivity extends AppCompatActivity implements Callback<Item
     RecyclerView relativeLayComments;
     @Bind(R.id.txtError)
     TextView txtError;
-    private Call<Items<Answer>> call;
+    private Call<Items<Question>> call;
 
-    private Answer answer;
+    private Question question;
     private MyProgressDialog progressDialog;
     private AnswerAdapter adapter;
 
@@ -61,13 +61,13 @@ public class DetailedActivity extends AppCompatActivity implements Callback<Item
         }
         initRecycleView();
         initToolBar();
-        answer = (Answer) getIntent().getSerializableExtra(Constants.BUNDLE_DATA_NAME);
-        if (answer != null) {
-            updateView(answer);
+        question = (Question) getIntent().getSerializableExtra(Constants.BUNDLE_DATA_NAME);
+        if (question != null) {
+            updateView(question);
         }
 
         NetworkManager networkmanager = new NetworkManager();
-        call = networkmanager.loadCommentFromQuestion(Integer.parseInt(answer.getQuestion_id()));
+        call = networkmanager.loadCommentFromQuestion(Integer.parseInt(question.getQuestion_id()));
         call.enqueue(this);
         progressDialog.showProgressDialog(TAG, false);
     }
@@ -87,10 +87,10 @@ public class DetailedActivity extends AppCompatActivity implements Callback<Item
         getSupportActionBar().setTitle("Details");
     }
 
-    private void updateView(Answer answer) {
-        Glide.with(DetailedActivity.this).load(answer.getOwner().getProfile_image()).into(ivPhoto);
-        tvQuestion.setText(answer.getTitle());
-        tvOwnerName.setText(getResources().getString(R.string.author_name, answer.getOwner().getDisplay_name()));
+    private void updateView(Question question) {
+        Glide.with(DetailedActivity.this).load(question.getOwner().getProfile_image()).into(ivPhoto);
+        tvQuestion.setText(question.getTitle());
+        tvOwnerName.setText(getResources().getString(R.string.author_name, question.getOwner().getDisplay_name()));
     }
 
     @Override
@@ -104,15 +104,15 @@ public class DetailedActivity extends AppCompatActivity implements Callback<Item
 
 
     @Override
-    public void onResponse(Call<Items<Answer>> call, Response<Items<Answer>> response) {
-        adapter.setAnswerItems(response.body().getItems());
+    public void onResponse(Call<Items<Question>> call, Response<Items<Question>> response) {
+        adapter.setQuestionItems(response.body().getItems());
         checkForResult(response.body().getItems().size());
         adapter.notifyDataSetChanged();
         progressDialog.hideProgressDialog(TAG);
     }
 
     @Override
-    public void onFailure(Call<Items<Answer>> call, Throwable t) {
+    public void onFailure(Call<Items<Question>> call, Throwable t) {
 
     }
 

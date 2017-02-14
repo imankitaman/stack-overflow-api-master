@@ -12,7 +12,7 @@ import android.view.View;
 import java.util.ArrayList;
 
 import ankit.com.taskmaster.R;
-import ankit.com.taskmaster.models.Answer;
+import ankit.com.taskmaster.models.Question;
 import ankit.com.taskmaster.view.activity.BaseTabsActivity;
 import ankit.com.taskmaster.view.activity.DetailedActivity;
 
@@ -42,9 +42,9 @@ public class ModuleMaster {
     }
 
 
-    public static void navigateToAnswersDetails(Context context, Answer answer,Pair<View, String>[] pairs ) {
+    public static void navigateToAnswersDetails(Context context, Question question, Pair<View, String>[] pairs ) {
         Intent intent = new Intent(context, DetailedActivity.class);
-        intent.putExtra(Constants.BUNDLE_DATA_NAME, answer);
+        intent.putExtra(Constants.BUNDLE_DATA_NAME, question);
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation((Activity) context,pairs);
             ActivityCompat.startActivity(context, intent, options.toBundle());
