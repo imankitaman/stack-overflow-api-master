@@ -45,9 +45,9 @@ public class MainActivity extends AppCompatActivity implements Callback<Items<Ta
 
 
     private void initRecycleView() {
-        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(3,StaggeredGridLayoutManager.VERTICAL);
+        final StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(8, StaggeredGridLayoutManager.HORIZONTAL);
         recycleTagsView.setLayoutManager(layoutManager);
-        recycleTagsView.addItemDecoration(new SpaceItemDecoration(5));
+        recycleTagsView.addItemDecoration(new SpaceItemDecoration(8));
         adapter = new TagsAdapter();
         recycleTagsView.setAdapter(adapter);
     }
