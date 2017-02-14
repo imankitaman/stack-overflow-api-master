@@ -10,9 +10,7 @@ import java.util.ArrayList;
 
 import ankit.com.taskmaster.uiutils.Utility;
 
-/**
- * Created by mayursharma on 7/22/15.
- */
+
 public class PagerAdapter extends FragmentStatePagerAdapter {
 
     String [] fragments;

@@ -5,13 +5,13 @@
     android:layout_height="match_parent"
     android:background="@android:color/white"
     android:fitsSystemWindows="true">
-
     <include layout="@layout/toolbar"/>
 
     <ScrollView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/activity_horizontal_margin"
         android:layout_marginTop="?actionBarSize"
         android:fillViewport="true"
         android:scrollbars="none">
@@ -59,8 +59,17 @@
                 style="@style/TextAppearance.AppCompat.Title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/secondary_text"
                 android:transitionName="@string/transition_title"
+                android:layout_marginTop="8dp"
+                />
+
+            <TextView
+                android:id="@+id/tvBody"
+                style="@style/TextAppearance.AppCompat.Subhead"
+                android:layout_width="match_parent"
+                android:autoLink="all"
+                android:layout_height="wrap_content"
+                android:textColor="@color/secondary_text"
                 android:layout_marginTop="8dp"
                 />
 

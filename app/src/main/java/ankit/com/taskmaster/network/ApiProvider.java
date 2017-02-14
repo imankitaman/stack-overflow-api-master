@@ -19,14 +19,14 @@ public interface ApiProvider {
     Call<Items<Tag>> loadTags();
 
     //UnAnsweredFragment Questions
-    @GET("questions/unanswered")
+    @GET("questions/unanswered?&filter=withbody")
     Call<Items<Question>> loadUnAnsweredQuestions(@Query("tagged") String tagName , @Query("site")String stackoverflow);
 
     //AnsweredQuestions
-    @GET("questions/no-answers")
+    @GET("questions/no-answers?&filter=withbody")
     Call<Items<Question>> loadNoAnsweredQuestions(@Query("tagged") String tagName, @Query("site")String stackoverflow);
 
-    @GET("questions/{id}/answers?order=desc&sort=activity&site=stackoverflow")
+    @GET("questions/{id}/answers?order=desc&sort=activity&site=stackoverflow&filter=withbody")
     Call<Items<Question>> loadCommentsFromQuestion(@Path("id") int id);
 
 }

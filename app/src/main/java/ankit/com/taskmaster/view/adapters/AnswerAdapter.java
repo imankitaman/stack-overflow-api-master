@@ -60,8 +60,8 @@ public class AnswerAdapter extends RecyclerView.Adapter<AnswerViewHolder> {
         holder.tvVotes.setText(context.getResources().getString(R.string.vote, question.getScore()));
         holder.tvAnswerCount.setText(context.getResources().getString(R.string.ans_count, question.getAnswer_count()));
         holder.tvViews.setText(context.getResources().getString(R.string.views, question.getView_count()));
-        if (!TextUtils.isEmpty(question.getBody()))
-            holder.tvAnswer.setText(Html.fromHtml(question.getBody()));
+//        if (!TextUtils.isEmpty(question.getBody()))
+//            holder.tvAnswer.setText(Html.fromHtml(question.getBody()));
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

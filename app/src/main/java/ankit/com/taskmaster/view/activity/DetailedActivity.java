@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -14,8 +16,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 
 import ankit.com.taskmaster.R;
-import ankit.com.taskmaster.models.Question;
 import ankit.com.taskmaster.models.Items;
+import ankit.com.taskmaster.models.Question;
 import ankit.com.taskmaster.network.NetworkManager;
 import ankit.com.taskmaster.uiutils.Constants;
 import ankit.com.taskmaster.uiutils.MyProgressDialog;
@@ -43,6 +45,8 @@ public class DetailedActivity extends AppCompatActivity implements Callback<Item
     RecyclerView relativeLayComments;
     @Bind(R.id.txtError)
     TextView txtError;
+    @Bind(R.id.tvBody)
+    TextView tvBody;
     private Call<Items<Question>> call;
 
     private Question question;
@@ -91,6 +95,8 @@ public class DetailedActivity extends AppCompatActivity implements Callback<Item
         Glide.with(DetailedActivity.this).load(question.getOwner().getProfile_image()).into(ivPhoto);
         tvQuestion.setText(question.getTitle());
         tvOwnerName.setText(getResources().getString(R.string.author_name, question.getOwner().getDisplay_name()));
+        if (!TextUtils.isEmpty(question.getBody()))
+        tvBody.setText(Html.fromHtml(question.getBody()));
     }
 
     @Override
