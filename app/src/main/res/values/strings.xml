@@ -19,7 +19,7 @@
         <item>@android:color/transparent</item>
     </integer-array>
 
-    <string name="tabTitle">Answers</string>
+    <string name="tabTitle">Questions</string>
 
     <string name="author">Author :- <b>%s</b></string>
 

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -36,11 +37,18 @@ public class MainActivity extends AppCompatActivity implements Callback<Items<Ta
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         initRecycleView();
+        initToolBar();
         progressDialog = new MyProgressDialog(this);
         NetworkManager networkmanager = new NetworkManager();
         call=networkmanager.loadPopularTags();
         call.enqueue(this);
         progressDialog.showProgressDialog(TAG,false);
+    }
+
+
+    private void initToolBar() {
+        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+        getSupportActionBar().setTitle("Tags");
     }
 
 

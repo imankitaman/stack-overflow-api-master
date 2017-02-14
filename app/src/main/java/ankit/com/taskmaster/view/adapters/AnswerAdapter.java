@@ -1,7 +1,11 @@
 package ankit.com.taskmaster.view.adapters;
 
 import android.content.Context;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
+import android.text.Spanned;
+import android.text.TextUtils;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,12 +47,21 @@ public class AnswerAdapter extends RecyclerView.Adapter<AnswerViewHolder> {
         final Pair[] viewStringPair = new Pair[]{Pair.create(holder.userPhoto, holder.itemView.getResources().getString(R.string.transition_image)),
                 Pair.create((View) holder.tvQuestion, holder.itemView.getResources().getString(R.string.transition_title)),
                 Pair.create((View) holder.tvAuthor, holder.itemView.getResources().getString(R.string.transition_authorName))};
+        if (!TextUtils.isEmpty(question.getOwner().getProfile_image()))
         Glide.with(context).load(question.getOwner().getProfile_image()).into(holder.userPhoto);
         holder.tvAuthor.setText(context.getResources().getString(R.string.author, question.getOwner().getDisplay_name()));
-        holder.tvQuestion.setText(question.getTitle());
+        if (!TextUtils.isEmpty(question.getTitle())) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                holder.tvQuestion.setText(Html.fromHtml(question.getTitle(), Html.FROM_HTML_MODE_LEGACY));
+            } else {
+                holder.tvQuestion.setText(Html.fromHtml(question.getTitle()));
+            }
+        }
         holder.tvVotes.setText(context.getResources().getString(R.string.vote, question.getScore()));
         holder.tvAnswerCount.setText(context.getResources().getString(R.string.ans_count, question.getAnswer_count()));
         holder.tvViews.setText(context.getResources().getString(R.string.views, question.getView_count()));
+        if (!TextUtils.isEmpty(question.getBody()))
+            holder.tvAnswer.setText(Html.fromHtml(question.getBody()));
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -91,7 +91,6 @@ public class BaseTabsActivity extends AppCompatActivity {
         final android.support.v7.app.ActionBar actionBar = getSupportActionBar();
 
         if (actionBar != null) {
-//            actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
     }

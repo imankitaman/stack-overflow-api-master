@@ -12,6 +12,7 @@
         android:paddingRight="16dp"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
+        android:drawablePadding="4dp"
         android:textColor="@android:color/white"
         android:background="@drawable/tag_bacground"
         android:layout_width="wrap_content"
