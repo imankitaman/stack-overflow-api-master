@@ -1,9 +1,11 @@
 package ankit.com.taskmaster.models;
 
+import java.io.Serializable;
+
 /**
  * Created by ankit on 14/02/17.
  */
-public class Owner {
+public class Owner implements Serializable {
     String reputation;
     int user_id;
     String user_type;

@@ -20,6 +20,7 @@
         </activity>
         <activity android:name=".view.activity.AnswersTab"/>
         <activity android:name=".view.activity.BaseTabsActivity"/>
+        <activity android:name=".view.activity.DetailedActivity"/>
     </application>
 
 </manifest>

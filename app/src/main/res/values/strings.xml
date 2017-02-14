@@ -22,4 +22,11 @@
     <string name="tabTitle">Answers</string>
 
     <string name="author">author name :- <b>%s</b></string>
+
+
+    <string name="author_name">author name\n <b>%s</b></string>
+
+    <string name="transition_image">profile_img</string>
+    <string name="transition_title">profile_title</string>
+    <string name="transition_authorName">profile_author</string>
 </resources>

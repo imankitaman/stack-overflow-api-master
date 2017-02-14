@@ -1,13 +1,20 @@
 package ankit.com.taskmaster.uiutils;
 
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.util.Pair;
+import android.view.View;
 
 import java.util.ArrayList;
 
 import ankit.com.taskmaster.R;
+import ankit.com.taskmaster.models.Answer;
 import ankit.com.taskmaster.view.activity.BaseTabsActivity;
+import ankit.com.taskmaster.view.activity.DetailedActivity;
 
 /**
  * Created by ankit on 14/02/17.
@@ -32,6 +39,18 @@ public class ModuleMaster {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
+    }
+
+
+    public static void navigateToAnswersDetails(Context context, Answer answer,Pair<View, String>[] pairs ) {
+        Intent intent = new Intent(context, DetailedActivity.class);
+        intent.putExtra(Constants.BUNDLE_DATA_NAME, answer);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation((Activity) context,pairs);
+            ActivityCompat.startActivity(context, intent, options.toBundle());
+        } else {
+            context.startActivity(intent);
+        }
     }
 
 

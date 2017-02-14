@@ -9,5 +9,6 @@ public class Constants {
 
 
     public static final String CONSTANT_TAG_NAME = "tagName";
+    public static final String BUNDLE_DATA_NAME = "answer";
 
 }
