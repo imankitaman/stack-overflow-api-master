@@ -59,6 +59,7 @@
                 style="@style/TextAppearance.AppCompat.Title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@color/secondary_text"
                 android:transitionName="@string/transition_title"
                 android:layout_marginTop="8dp"
                 android:text="Title of Question"

@@ -46,9 +46,9 @@ public class AnswerAdapter extends RecyclerView.Adapter<AnswerViewHolder> {
     @Override
     public void onBindViewHolder(AnswerViewHolder holder, int position) {
         final Answer answer = answerItems.get(position);
-
         final Pair[] viewStringPair = new Pair[]{Pair.create(holder.userPhoto, holder.itemView.getResources().getString(R.string.transition_image)),
-                Pair.create((View) holder.tvQuestion, holder.itemView.getResources().getString(R.string.transition_title))};
+                Pair.create((View) holder.tvQuestion, holder.itemView.getResources().getString(R.string.transition_title)),
+                Pair.create((View) holder.tvAuthor, holder.itemView.getResources().getString(R.string.transition_authorName))};
         Glide.with(context).load(answer.getOwner().getProfile_image()).into(holder.userPhoto);
         holder.tvAuthor.setText(context.getResources().getString(R.string.author, answer.getOwner().getDisplay_name()));
         holder.tvQuestion.setText(answer.getTitle());

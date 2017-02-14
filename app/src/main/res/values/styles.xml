@@ -36,4 +36,19 @@
         <item name="actionMenuTextColor">@android:color/white</item>
     </style>
 
+    <!--TabLyout-->
+
+    <!--TabLyout-->
+    <style name="MyCustomTabLayout" parent="Widget.Design.TabLayout">
+        <item name="tabTextAppearance">@style/MyCustomTabText</item>
+        <item name="tabSelectedTextColor">@color/colorPrimary</item>
+    </style>
+
+    <style name="MyCustomTabText" parent="Widget.Design.TabLayout">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">#cccccc</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
 </resources>
