@@ -14,13 +14,14 @@
         <item>NO ANSWERS</item>
     </string-array>
 
+
     <integer-array name="fragment_icons">
         <item>@android:color/transparent</item>
         <item>@android:color/transparent</item>
     </integer-array>
 
     <!--adapter-->
-    <string name="author">Author :- <b>%s</b></string>
+    <string name="author">Author:- <b>%s</b></string>
     <string name="author_name">Author:- \n <b>%s</b></string>
     <string name="vote">%d \n Score</string>
     <string name="ans_count">%d \n Answer</string>
